@@ -6,6 +6,12 @@
 #define DR_PCX_IMPLEMENTATION
 #include "pcx.hpp"
 
+struct Point
+{
+    int x = 0;
+    int y = 0;
+};
+
 std::optional<sf::Texture> load_pcx_image(const std::filesystem::path& path)
 {
     int width = 0;
@@ -30,6 +36,16 @@ std::optional<sf::Texture> load_pcx_image(const std::filesystem::path& path)
     return pcx_texture;
 }
 
+//void horizontal_line(Point p1, Point p2, int offset, int scale, int horizon, Point pmap) {
+//    const auto n = 700;
+//
+//    const float dx = static_cast<float>(p2.x - p1.x) / n;
+//    const float dy = static_cast<float>(p2.y - p1.y) / n;
+//
+//    for(int i = 0; i < n; i)
+//
+//}
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Open Delta");
@@ -39,12 +55,44 @@ int main()
     if(!pcx_texture_res.has_value())
         return -1;
 
-    sf::Sprite pcx_sprite(pcx_texture_res.value());
+    const auto pcx_texture = pcx_texture_res.value();
 
-    sf::Texture texture;
-    if (!texture.loadFromFile("data/dfd1/DFD1_C.JPG"))
+    sf::Texture color_texture;
+    if (!color_texture.loadFromFile("data/dfd1/DFD1_C.JPG"))
         return EXIT_FAILURE;
-    sf::Sprite sprite(texture);
+
+    sf::Image result_image;
+    result_image.create(1024, 1024, sf::Color{255, 0, 0});
+
+    // Read from both colors and create a sprite
+    int distance = 800;
+    float height = 120.0f;
+    float phi = 0.0f;
+
+    for(int i = 0; i < 64; i++)
+    {
+        const auto y = 500 - i * 16;
+        const auto x = 670;
+        const auto point = Point {.x = x, .y = y};
+        const auto point_map = point;
+
+        for(int z = distance; z > 1; z -= 2)
+        {
+            const auto pl = Point {.x = -z, .y = -z};
+            const auto pr = Point {.x = -z, .y = -z};
+
+
+        }
+
+    }
+
+
+    // Finished
+
+    sf::Texture result_texture;
+    result_texture.loadFromImage(result_image);
+    sf::Sprite result_sprite;
+    result_sprite.setTexture(result_texture);
 
     while (window.isOpen())
     {
@@ -56,7 +104,7 @@ int main()
         }
 
         window.clear();
-        window.draw(pcx_sprite);
+        window.draw(result_sprite);
         window.display();
     }
 }
