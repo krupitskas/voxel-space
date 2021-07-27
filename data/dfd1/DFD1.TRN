@@ -1,0 +1,21 @@
+terrain_name     "Green One"
+terrain_creator  "Jason Tull"
+
+color_map         dfd1_c
+elev_map          dfd1_d
+detail_map        dfd1_m
+detail_color      dfd1_cm
+detail_elev       dfd1_dm
+char_data         dfd1_cm
+sky_map           clouds01
+sky_palette       skygrd01
+sky_height        1236
+horizon           1
+
+water_map         ripple1
+water_height      0
+
+filter            128, 128, 128
+gamma             128
+saturation        128
+sun_slope         70

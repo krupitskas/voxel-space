@@ -1,0 +1,263 @@
+{\rtf1\ansi\ansicpg1251\cocoartf2622
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 Arial-BoldItalicMT;\f2\fswiss\fcharset0 ArialMT;
+\f3\fswiss\fcharset0 Arial-BoldMT;\f4\fswiss\fcharset0 Arial-ItalicMT;\f5\froman\fcharset0 TimesNewRomanPSMT;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue255;\red0\green0\blue128;}
+{\*\expandedcolortbl;;\csgenericrgb\c0\c0\c100000;\csgenericrgb\c0\c0\c50196;}
+\paperw11900\paperh16840\vieww26680\viewh15180\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 o
+\f1\i\b\fs20 July 29, 2003                                                                                                
+\fs32 \ul DF2 Terrain Making\ulnone                                 
+\fs20 By DR.EVIL~TAG\
+\pard\pardeftab720\partightenfactor0
+\cf0 \
+\
+\
+\
+\pard\pardeftab720\ri-1870\partightenfactor0
+
+\f2\i0\b0 \cf0        Making a terrain in DF2 consists of having an idea and applying it to photo shop and or any paint program.The terrain consists of files and titles you need to fix , change, or duplicate.They are the color map which you see in the editor and play on , the height map which is a greyscale , also found in the editor when building maps , A detailed map which is a 8/256 color map it tells where the sand and grass will be on the main colored map , a detailed color texture strip , detailed elev greyscale strip consisting of the textures from the detailed color strip , Char data .cal file, and the rest is just common DF2 files consisting of sky map ,cloud height ,horizon type , water map which is always ripple one as DF2 has no other type of water , water height , filter , gamma , saturation , and  sunslope .\
+
+\f1\i\b \
+                                                                                                      
+\fs32 HEIGHT MAP
+\fs20 \
+       
+\f2\i0\b0 The elevation map is a 1024x1024 , 8/256 bit grayscale pixel depth PCX picture where the light areas is the highest point of the terrain and the darker areas represent the lowest part of the terrain.The dimensions will always be the same in all DF2 terrains.The pixel size works out to be 14.222x14.222 inches with 72.000 pixels per inch.
+\f1\i\b \
+\pard\tx450\tx540\pardeftab720\ri-1870\partightenfactor0
+\cf0  \
+\pard\pardeftab720\ri-1870\partightenfactor0
+
+\f3\i0 \cf0   \
+\pard\pardeftab720\ri-1870\partightenfactor0
+
+\f2\b0 \cf0 As you can see in this sample the differences in the shade you can tell where the low spots and the high spots are.Using photo shop and or any other paint program you can create such an image and or by using a program called terragen or bryce.I'll do a quick blurb on terragen and bryce after words.Create the height image first by using the paintbrushes , smudge and the blur tool along with any other tools provided to make your image start of with a pure black image that way you can see your work easier and tell how its blending in together.The hills if leading if the edges must contiune back in on the other side or you will have a complete drop off.Use a grid and or ruler to line up where you went off the board and where you want to come back on the board,For example if you create a hill or road  that goes off the top of the map you need it to come  back on to the map so it all matches in when your playing the game.Takes a bit of practice. The picture on the left shows a good example of leading off  one edge and coming back on to the other side or where ever in order to make it match up.It goes out top right corner and comes back on bottom left corner.That would be a vally with hills on both sides of it.When were all done with the image and ready to save it we would save as such \cf2 \ul \ulc2 Terrain\cf0 \ulnone _d.pcx .Replace the terrain with your own title.Leave the _d there to tell us that its a depth map when ready for writing out the terrain file.A good spot for the shades of greyscale can be found here at http://www.w3schools.com/html/html_colorsfull.asp \
+\pard\pardeftab720\ri-1870\partightenfactor0
+
+\f3\b \cf0 \
+
+\fs32                                                                       COLOR MAP\
+\
+\pard\pardeftab720\ri-1870\partightenfactor0
+
+\f2\b0\fs20 \cf0 The color map is a 1024x1024 , 24/16million JPG picture that gives the terrain the look you want it to.
+\f4\i The dimensions will always be the same in all DF2 terrains.The pixel size works out to be 14.222x14.222 inches with 72.000 pixels per inch . Adding the colors is the tricky part espiecally when your trying to get it detailed as possible.How to get the exact copy of your height map you just made is to copy and paste it as a new object or use the duplicate button provided with most programs.Now you will be showing 2 height maps in the editor.Take the one you just copied and add color.Where to begin ,first  select the colors menu in your editor and load palette make sure you check the box where it says maintain indexs and apply this will take and change your picture to 8/256 color and you will see the rings in you picture showing you the highest points and the lowest points and where it smooths of into each other.
+\f1\b \
+\pard\pardeftab720\ri-1870\partightenfactor0
+
+\f3\i0 \cf0 \
+    \
+\pard\pardeftab720\ri-1870\partightenfactor0
+
+\f2\b0 \cf0 Hard to see in the first pic here but there are actual rings around each height diffence.Now remembering you need to have this picture at a 24/16 bit JPG so now go back into the color menu and increase the colors to 24/16 bit.From here its alot of zooming in and out and painting with the tools provided.You can also use textures if your program supports them.Such as the leather texture.You can find most textures on the net using a search engine.The images above are the after effect of the first height map from above.This picture will be saved as a JPG titled \cf2 Terrain\cf0 _c.jpg .Replace terrain with your terrain name.Compare the 3 pictures so far and see the difference.The far right height map picture is not par of this terrain just there as an example of hills and roads or vallys.Use what ever coloring technique that works best for you and play around with the textures and brushs.
+\f3\b \
+\
+\pard\pardeftab720\ri-1870\partightenfactor0
+
+\fs32 \cf0                                                                    DETAILED MAP\
+\
+\pard\pardeftab720\ri-1870\partightenfactor0
+
+\f2\b0\fs20 \cf0 The detailed map is a 8/256 colored PCX picture.This maps tells you and the game of where the sand,grass and what ever other textures your going to put in as to where they'll be placed.For this part you will need a tool called PFF Extractor which you can get from dfbarracks.com or at fatandhairy.com.With this tool you can go in to the terrain.pff section of you DELTA FORCE 2 folder and extract a map file that looks simular to terrain_m.pcx .What you after here is the color palette of it ,doesn't matter which one they all use the same color palette.Open this in your paint program and save the palette.Now what you want to do is take your color pic and duplicate it so you will have 2.You can close out the good one that you saved as _c.jpg so you don't accidently ruin it .Now take the one you just copied and reduce it to a 8/256 color pic from a 24/16 bit colored pic .The detailed map uses an 256 color indexed palette.The index number on every color in the palette matches to a texture tile in the character map.So that being said say red in the pallette is the 4 tile down on you character map and this tile could be grass or what ever you have put in there.We'll get to that in a bit.Why is it the 4th tile down your asking cause numbers start at 0 not 1 so in the palette theres actually 255 colors not 256 .Now take the palette you saved just moments before from the stock terrain file and apply it.You'll see a rainbow colored pic like the one below.The one on the left is the stock one and the one on the right belongs to the picture above.If your having problems with this little part here and getting it right , you can always just use a stock terrain _m.pcx as your own and it will place the texture for you.It doesn't have to be the same as your height and color map.\{color&height map has to be the same though\}Now save this map as \cf2 terrain\cf0 _m.pcx
+\f3\b\fs32 \
+\
+\pard\pardeftab720\ri-1870\partightenfactor0
+
+\fs20 \cf0             \
+ \
+\
+                                                                                               
+\fs32 CHARACTER MAP\
+\
+\pard\pardeftab720\ri-1870\partightenfactor0
+
+\f2\b0\fs20 \cf0 The character map is a 24 bit TGA color image made up of texture blocks that are 64x64 pixels used in the color map.The actual size of the strip when all the tiles are put together will be resized to 64x16384 pixels which will give you a nice long thin stip.Every first tile in  the character maps were black when i checked them out in the df2 game.Being that there is a 256 color palette loaded on our detailed map ,we can put up to that many textures in the character map,whether it being sand , grass , snow what ever.This map is always titled\cf2  terrain\cf0 _cm.Below are some samples of textures.The first one would represent grass,second would be gravel,thrid being a cement block,And then the tile that are used to create the rail road track in the stock DF2 map.You would take thes tiles and put them all into one image forming a vertical strip.
+\f3\b \
+\
+        \
+\
+
+\f2\b0 Black being the first tile as i stated before.And then carrying on with your tiles.The rail road is devided up in to sections cause  1 tile equals 1 pixel on the map.So each one of those tiles would have a color.So lets say they were the last 4 tiles in your strip than the last 4 colors in the color palette of you detailed map would belong to them.So lets say those 4 color lines represent the last 4 colors of your palette.Then the light green would be the left side of the track and so fort right across to the right side .It would look a bit wider as one color represents a pixel.But thats only if your strip is 255 tiles long.It easier to take a stock _cm strip that is close  to having the textures you want and using it and modifying it abit.You just have to zoom in on it and copy and past your tile over one of theirs.Make sure you merge them together.At first i would recommend using a stock _cm file.Save this as \cf2 terrain\cf0 _cm.pcx .Unless its stock one that your using than you would leave it as the name it was given.The same for the detailed map if your using a stock one.
+\f3\b \
+\
+                                                                                               
+\fs32 ELEVATION MAP\
+\
+
+\f2\b0\fs20 This map is the same size as the above in all aspects.It is a greyscale pcx vertical stip as well used to set the elevation of the character detail map \{cm\}his map works the same as the height map giving depth to the textures such as grass.This map shows the character maps tiles in greyscale.You want long grass zoom in and put lighter spots on the texture to form sort of like spikes.The train tracks you will see are a lighter color than the rest of the tile this is to give the train tracks height off the ground.Easy way to create this strip is to take the character map and conver it to greyscale.
+\f3\b \
+\
+\
+         \
+
+\f2\b0 Hard to see the difference but there is.They're labeled in order as to the colored ones above.Again you could use a stock one till you get practice on these ones.Save yours as terrain_dm.pcx , If your using a stock one leave the name as is and make sure it came from the same map that you're using the cm and m maps out of.
+\f3\b \
+\
+\
+                                                                                                  
+\fs32 TERRAIN FILE\
+\
+
+\f2\b0\fs20 Now for the writing of the terrain file.There are  a 2 different ways you can write these but for both you'll need your pc note pad.\
+The first one as below does not carry the ability to have water in it .Stuff in blue leave as is ,\
+\pard\pardeftab720\ri-1870\partightenfactor0
+
+\f3\b \cf0 \
+\
+terrain_name     "terrain" \
+terrain_creator  "you"\
+\
+color_map         terrain_c\
+elev_map          terrain_d\
+detail_map        terrain_m\
+detail_color       terrain_cm\
+detail_elev        terrain_dm\
+char_data          terrain_cm\
+\cf2 sky_map            clouds01    \
+sky_palette        skygrd01\
+moon_sun_object	  sun\
+sky_height        1350\
+scale_bits        21\
+	\
+camouflage        Green\
+filter            128, 128, 128\
+gamma             128\
+saturation        128\
+sun_slope         70\
+\
+\pard\pardeftab720\ri-1870\partightenfactor0
+
+\f2\b0 \cf0 The next file looks like the one below.So you have to options one with water and one with out.The one above is how it should look like when you make all your own files,the one below is using your color map and height map and then stock files from other stock terrains.Don't change the blue when using a stock terrain files .The water level you can leave at 0 if you want the map to have no water in it when its done.If you want water to be in it like some of the stock terrains then change the numbers ,other wise when left at 0 its all done through the editor.Save this file as terrain.trn make sure your notepad is selected for \{ALL\} and not txt.\
+\pard\pardeftab720\ri-1870\partightenfactor0
+
+\f3\b \cf0 \
+terrain_name     "terrain"\
+terrain_creator  "you"\
+\
+color_map         terrain_c\
+elev_map          terrain_d\
+\cf2 detail_map        dfd2_m                         < You can change any of these to any stock terrain files to be used with yours.\
+detail_color      dfd2_cm                        < You can change any of these to any stock terrain files to be used with yours.\
+detail_elev       dfd2_dm                        < You can change any of these to any stock terrain files to be used with yours.\
+char_data         dfd2_cm                        < You can change any of these to any stock terrain files to be used with yours.     \
+sky_map           clouds01                        < leave as is .\
+sky_palette       skygrd01                        < leave as is.\
+sky_height        1236                               < leave as is\
+horizon           1                                      < leave as is\cf0 \
+\
+\cf2 water_map         ripple1                         < leave as is\cf0 \
+water_height      0\
+\
+\cf2 filter            128, 128, 128                       < leave as is\
+gamma             128                                < leave as is\
+saturation        128                                 < leave as is\
+sun_slope         70                                  < leave as is\
+\
+\
+\cf0                                                                                          
+\fs32 ADDING THE TERRAIN TO THE PFF\
+\
+\pard\pardeftab720\ri-1870\partightenfactor0
+
+\f2\b0\fs20 \cf0 If you have the PFF extractor made by FwoRaven all you have to do is open the DF2.PFF if you only have a small install on you pc of DF2 or open the TERRAIN.PFF file it doesn't matter which one you put them in.Goto the actions menu and select add and then search for the files you just made and add them and then close out the pff and the program and then go test your terrain.If you don't have the PFF extractor you can make up what they call a *.bat file as shown below in note pad and saved as \cf2 terrain\cf0 .bat .The *.bat file only wors when you take it and the rest of your files and put them in the df2 folder first before clicking on the *.bat file. Where as the PFF extractor will add them from anywhere on your pc.\
+\pard\pardeftab720\ri-1870\partightenfactor0
+
+\f3\b \cf0 \
+@ECHO OFF \
+CLS \
+ECHO. \
+ECHO Created by DR.EVIL~TAG\
+\
+ECHO. \
+ECHO. \
+ECHO This Program will install the new terrains \
+ECHO texture into your Delta Force 2 game. \
+ECHO Make sure you have made a back up copy of the \
+ECHO \cf3 TERRAIN.PFF\cf0  file found in your DF2 folder                  \cf2 <specify whether its looking for the terrain.pff or the df2.pff file.\cf0 \
+PAUSE \
+\
+\cf3 pack.exe terrains.pff\cf0   terrain_c.jpg terrain_d.pcx terrain.trn \cf2 < and continue if you have anymore files pertaining to the terrain.\cf0 \
+\cf3 del\cf0  terrain.bat terrain_c.jpg terrain_d.pcx terrain.trn \cf2 <and continue with what ever files you typed above.\cf0 \
+\
+ECHO. \
+ECHO. Program Done. You may close this window. \
+\
+\
+\pard\pardeftab720\ri-1870\partightenfactor0
+
+\f2\b0 \cf0 The section in the navy color is telling the program that you are going to pack the following files in to the terrains.pff folder if its the df2.pff folder your adding them to then thats what would go there and the carried on with the rest of the files.\
+The del command is telling the *.bat file to del it self and the files that you have just put in you df2 folder out of it,Because you have already installed them into the Terrain or Df2 PFF folder so theres no need for them to be in the df2 anymore taking up  space.
+\f3\b \
+\
+\pard\pardeftab720\ri-1870\partightenfactor0
+
+\fs32 \cf2                                                                   \cf0 TERRAGEN 0.8.68\
+\pard\pardeftab720\ri-1870\partightenfactor0
+
+\f2\b0\fs20 \cf0    Using terragen which can be found here at 
+\f3\b http://www.planetside.co.uk/terragen/ 
+\f2\b0 can make terrains a bit easier than psp and any other paint program if used properly but psp offers a bit more tools to work with.When you open it up go to 
+\f3\b landscape settings, 
+\f2\b0 click on the 7680 meters button and a new window will pop up in here you will at the top a section called 
+\f3\b TERRAIN GRID POINTS
+\f2\b0  make sure it set for 257 x 257 this will take less rendering time when ready to reander the image.Now when all said and done click ok and this will take you back to the landscape section.Here click on the 
+\f3\b GENERATE TERRAIN 
+\f2\b0 ,and another little window will pop up called the 
+\f3\b TERRAIN GENESIS 
+\f2\b0 this is where you can set the features of you terrain as far as realism and size of hills to be created or canyons.Once your done setting up the settings click on generate terrain and see what comes up if not happy go back change a few settings and try again or you can use the tractor symbols at the top of the landscape screen to create your own right from scratch.The left mouse button adds height and the right mouse botton erases height.\
+   Export the height file once your happy with it as a 
+\f3\b RAW 8 BITS
+\f2\b0  file.Remembering the width and height of you terrain as you will need that info later on.When you open the terrain file into psp or any other program that handles RAW files make sure you open it with the size you saved it as 257 x 257 and it will also show a flip or invert section ,you want to apply that as well.Once its opened in the paint program you can now save it  to 1024 x 1024 and as a xxxx_d.pcx picture.\
+   Ok now for your color pic of the terrain.If your terragen program is still opened with the hieght map you just made go to the left side menu and go to the 5th button down called 
+\f3\b Atmosphere 
+\f2\b0 in here change the edit 
+\f3\b color density 
+\f2\b0 to 0% and the 
+\f3\b atmospheric blue density 
+\f2\b0 to 0% as well and once again the light 
+\f3\b decay/red decay 
+\f2\b0 to 0% then close out the window.Now go into the 
+\f3\b lighting
+\f2\b0  menu located on the left side as well and the 6th botton down ,in here we'll uncheck the 
+\f3\b terrain casts shadows 
+\f2\b0 and thats it for in there close the window out.\
+   Now go to the back to main window where the 
+\f3\b RENDERING CONTROL
+\f2\b0  screen is and do the following changes.Change the 
+\f3\b camera position 
+\f2\b0 to 128, 128, 4500, make sure you use the comma's after the numbers.Fixed height above surface box should be unchecked.Next down to the 
+\f3\b Target position 
+\f2\b0 and change to 128, 128, 0, and the fixed height above the surface box uncheck here as well .
+\f3\b Camera orientation 
+\f2\b0 to 0, -90, 0  .
+\f3\b Settings
+\f2\b0  menu set to 
+\f3\b land 
+\f2\b0 and the 
+\f3\b width
+\f2\b0  and
+\f3\b  height 
+\f2\b0 to 960 x 960 and then 
+\f3\b zoom
+\f2\b0  button all the way over to the right.If you used the height size of 513 x 513 when you created you height map instead of the 257 x 257 then all the 128'2 need to be set to 256 and the 4500 around 8000.These numbers will place the camera looking down onto the terrain like a birds eye veiw at maximum zoom.Then render preview of your terrain and if you want you can skip right to render full image and then save it ,Open it up in the paint program and add more colors to it there or go back into the terragen and start adding surface which is located in the 
+\f3\b Landscape section 
+\f2\b0 where you made the height map.In here you will need to add alot of surfaces or textures.Txtures would be the fastest way.All else fails with the coloring in the terragen program you can take the hieght map and do as stated above about the copying it and then converting it to color.Another quick point is to make the color map and the height map work seemless when tiled do this in adobe photo shop.I hope this little blurb on terragen helps you out a bit.\
+\
+\pard\pardeftab720\sb100\sa100\partightenfactor0
+
+\f3\b \cf0                                                                              
+\fs32 CREATING 2 TERRAINS FROM ONE
+\fs20  \
+
+\f2\b0 Why spend the time making dozens of terrain when you can make 2 from 1.Take the 1 you have just made and invert the color pic and the height pic,now your once hills are valleys and the once valley are hills.This is still in trial version but works to a point.The known problems when doing this are that if your hills are to high as a regular map then when its inverted it turns the hills into a vally or hole that you can't get out of.Its best to do this technique on a terrain with gradual slopes and hills.The color pic has to have a few mods as well ,for instance the color map will show still some spots that were hill which are now vallyes.The colors will need to be changed to make it look like they're valleys now.
+\f5\fs24 \
+\pard\pardeftab720\ri-1870\partightenfactor0
+
+\f3\b\fs32 \cf2 \
+
+\fs20                     
+\f2\b0 \cf0 \
+}
