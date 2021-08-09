@@ -26,7 +26,7 @@ class Point:
         self.y = y
 
 # -----------------------------------------------------
-
+# DrawVerticalLine(i, (heightmap[xi, yi]+offset)*scale+horizon, 511, colormap[xi, yi])
 def DrawVerticalLine(x, ytop, ybottom, c):
     if (ytop >= ybottom): return
     if (ytop < 0): ytop = 0
@@ -54,6 +54,11 @@ Store.n = 0
 Store.modulo = 10
 
 # -----------------------------------------------------
+#
+# Horline(
+#     Point(p.x + pl.x, p.y + pl.y),
+#     Point(p.x + pr.x, p.y + pr.y),
+#     -height, -1./z*240., +120, pmap)
 
 def Horline(p1, p2, offset, scale, horizon, pmap):
     n = 700
@@ -127,7 +132,7 @@ def ClearAndDrawMaps(pmap):
                 screenmap[i+1024, j] = 0xffa366
 
 # -----------------------------------------------------
-
+#DrawBackToFront(Point(230, 0), 0, 50, 240, Point(230, 0))
 def DrawBackToFront(p, phi, height, distance, pmap):
     ClearAndDrawMaps(pmap)
     for z in range(distance, 1, -2):

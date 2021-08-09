@@ -8,8 +8,8 @@
 
 struct Point
 {
-    int x = 0;
-    int y = 0;
+    float x = 0.0f;
+    float y = 0.0f;
 };
 
 std::optional<sf::Texture> load_pcx_image(const std::filesystem::path& path)
@@ -36,61 +36,80 @@ std::optional<sf::Texture> load_pcx_image(const std::filesystem::path& path)
     return pcx_texture;
 }
 
-//void horizontal_line(Point p1, Point p2, int offset, int scale, int horizon, Point pmap) {
-//    const auto n = 700;
-//
-//    const float dx = static_cast<float>(p2.x - p1.x) / n;
-//    const float dy = static_cast<float>(p2.y - p1.y) / n;
-//
-//    for(int i = 0; i < n; i)
-//
-//}
+sf::Image render(const sf::Image& color_img, const sf::Image& height_img)
+{
+    int scr_width = 800;
+    int scr_height = 600;
+    sf::Image result_image;
+    result_image.create(scr_width, scr_height, sf::Color{255, 0, 0});
+
+    const Point player_pos = Point{.x =  256, .y = 512};
+    int distance = 512;
+    int height = 50;
+    int horizon = 240;
+    int z_step = 1;
+
+    // Going from back to front
+    for(int z = distance; z > 1; z -= z_step)
+    {
+        // Draw horizontal line
+        Point p_left  = Point{ .x = -z + player_pos.x, .y = -z + player_pos.y };
+        Point p_right = Point{ .x = z + player_pos.x, .y = -z + player_pos.y };
+
+        float dx = float(p_right.x - p_left.x) / (float)scr_width;
+        float dy = float(p_right.y - p_left.y) / (float)scr_height;
+
+        for(int i = 0; i < scr_width; i++)
+        {
+            if(p_left.x < 0 || p_left.x > height_img.getSize().x || p_left.y < 0 || p_left.y > height_img.getSize().y)
+                continue;
+
+            auto heightmap_pixel = height_img.getPixel(p_left.x, p_left.y);
+
+            auto heightmap_val = (heightmap_pixel.r + heightmap_pixel.g + heightmap_pixel.b) / 3.0f;
+
+            float height_on_screen = float(height - heightmap_val) / float(z) * 240.0f + (float)horizon;
+
+            if(height_on_screen >= scr_height)
+                continue;
+
+            if(height_on_screen < 0)
+                height_on_screen = 0;
+
+            auto color = color_img.getPixel(p_left.x , p_left.y);
+
+            for(int j = height_on_screen; j < scr_height; j++)
+                result_image.setPixel(i, j, color);
+
+            p_left.x += dx;
+            p_left.y += dy;
+        }
+    }
+
+    return result_image;
+}
 
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Open Delta");
 
-    const auto pcx_texture_res = load_pcx_image("data/dfd1/DFD1_D.PCX");
+    const auto height_tex = load_pcx_image("data/dfd1/DFD1_D.PCX");
 
-    if(!pcx_texture_res.has_value())
+    if(!height_tex.has_value())
         return -1;
 
-    const auto pcx_texture = pcx_texture_res.value();
+    const auto& pcx_texture = height_tex.value();
 
     sf::Texture color_texture;
     if (!color_texture.loadFromFile("data/dfd1/DFD1_C.JPG"))
         return EXIT_FAILURE;
 
-    sf::Image result_image;
-    result_image.create(1024, 1024, sf::Color{255, 0, 0});
-
-    // Read from both colors and create a sprite
-    int distance = 800;
-    float height = 120.0f;
-    float phi = 0.0f;
-
-    for(int i = 0; i < 64; i++)
-    {
-        const auto y = 500 - i * 16;
-        const auto x = 670;
-        const auto point = Point {.x = x, .y = y};
-        const auto point_map = point;
-
-        for(int z = distance; z > 1; z -= 2)
-        {
-            const auto pl = Point {.x = -z, .y = -z};
-            const auto pr = Point {.x = -z, .y = -z};
-
-
-        }
-
-    }
-
-
-    // Finished
+    auto color_img = color_texture.copyToImage();
+    auto height_img = pcx_texture.copyToImage();
 
     sf::Texture result_texture;
-    result_texture.loadFromImage(result_image);
+    result_texture.loadFromImage(render(color_img, height_img));
+
     sf::Sprite result_sprite;
     result_sprite.setTexture(result_texture);
 
