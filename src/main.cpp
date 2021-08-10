@@ -3,6 +3,7 @@
 #include <filesystem>
 
 #include <SFML/Graphics.hpp>
+
 #define DR_PCX_IMPLEMENTATION
 #include "pcx.hpp"
 

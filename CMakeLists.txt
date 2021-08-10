@@ -1,17 +1,20 @@
 cmake_minimum_required(VERSION 3.19)
+
 project(opendelta)
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/3rdparty")
+
+include(deps)
 
 set(CMAKE_CXX_STANDARD 20)
 
-if(MSVC)
-    add_compile_options(
-            $<$<CONFIG:>:/MT> #---------|
-            $<$<CONFIG:Debug>:/MTd> #---|-- Statically link the runtime libraries
-            $<$<CONFIG:Release>:/MT> #--|
-    )
-endif()
+add_executable(opendelta src/main.cpp)
 
-add_executable(opendelta main.cpp)
-
-find_package(SFML COMPONENTS system window graphics CONFIG REQUIRED)
 target_link_libraries(opendelta PRIVATE sfml-system sfml-graphics sfml-window)
+target_include_directories(opendelta PRIVATE 3rdparty)
+
+add_custom_command(
+        TARGET opendelta
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_SOURCE_DIR}/data
+        ${CMAKE_CURRENT_BINARY_DIR}/data)
