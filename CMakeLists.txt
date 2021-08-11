@@ -10,8 +10,8 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(opendelta src/main.cpp)
 
-target_link_libraries(opendelta PRIVATE sfml-system sfml-graphics sfml-window)
-target_include_directories(opendelta PRIVATE 3rdparty)
+target_link_libraries(opendelta PRIVATE sfml-system sfml-graphics sfml-window  ImGui-SFML::ImGui-SFML)
+target_include_directories(opendelta PRIVATE 3rdparty ${imgui_SOURCE_DIR})
 
 add_custom_command(
         TARGET opendelta
