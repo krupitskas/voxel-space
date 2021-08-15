@@ -7,6 +7,8 @@ FetchContent_Declare(
 )
 FetchContent_Populate(imgui)
 
+set(BUILD_SHARED_LIBS OFF)
+set(SFML_STATIC_LIBRARIES ON)
 FetchContent_Declare(
         sfml
         GIT_REPOSITORY "https://github.com/SFML/SFML.git"
