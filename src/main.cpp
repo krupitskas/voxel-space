@@ -10,7 +10,7 @@
 #include "pcx.hpp"
 
 // Plan:
-// 1. Add camera + movement and rotation
+// 1.0 Optimize to have 60fps
 // 1.5. Add -WError flag in CMake
 // 2. Add minimap in imgui
 // 3. Add support for detailed map
@@ -37,9 +37,11 @@ struct Vector3 {
     }
 };
 
+// Coordinate system is left handed
 struct Camera {
     Vector3 pos;
     Vector3 dir;
+    Vector2 rot;
 
     void rotate()
     {
@@ -49,6 +51,13 @@ struct Camera {
     void translate(const Vector3& t)
     {
         pos += t;
+    }
+
+    // Rotation in degrees
+    void rotate(float x, float y)
+    {
+        rot.x += x;
+        rot.y += y;
     }
 };
 
@@ -86,6 +95,10 @@ std::optional<sf::Texture> load_pcx_image(const std::filesystem::path& path)
 
 void render(sf::Image& result_image, const sf::Image& color_img, const sf::Image& height_img, const Camera& camera, int distance, int horizon, uint16_t win_width, uint16_t win_height)
 {
+    const float sin_rot = std::sin(camera.rot.x);
+    const float cos_rot = std::cos(camera.rot.x);
+
+    // Clear screen
     for(int x = 0; x < result_image.getSize().x; x++)
         for(int y = 0; y < result_image.getSize().y; y++)
             result_image.setPixel(x, y, {53, 81, 92});
@@ -96,8 +109,8 @@ void render(sf::Image& result_image, const sf::Image& color_img, const sf::Image
         const auto camera_dist = static_cast<float>(z);
 
         // Draw horizontal line
-        auto p_left  = Vector2{ .x = -camera_dist + camera.pos.x, .y = -camera_dist + camera.pos.y };
-        auto p_right = Vector2{ .x = camera_dist + camera.pos.x, .y = -camera_dist + camera.pos.y  };
+        auto p_left  = Vector2{ .x = (-cos_rot*camera_dist - sin_rot*camera_dist) + camera.pos.x, .y = ( sin_rot*camera_dist - cos_rot*camera_dist) + camera.pos.y };
+        auto p_right = Vector2{ .x = ( cos_rot*camera_dist - sin_rot*camera_dist)  + camera.pos.x, .y = (-sin_rot*camera_dist- cos_rot*camera_dist) + camera.pos.y  };
 
         float dx = float(p_right.x - p_left.x) / (float)win_width;
         float dy = float(p_right.y - p_left.y) / (float)win_height;
@@ -175,6 +188,7 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
 
+            // Movement
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
                 camera.translate({-1.0, 0.0f, 0.0f});
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
@@ -187,6 +201,16 @@ int main()
                 camera.translate({0.0, 0.0f, 1.0f});
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
                 camera.translate({0.0, 0.0f, -1.0f});
+
+            // Rotation
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+                camera.rotate(-5.0, 0.0);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+                camera.rotate(5.0, 0.0);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+                camera.rotate(0.0, 5.0);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+                camera.rotate(0.0, -5.0);
         }
 
         ImGui::SFML::Update(window, deltaClock.restart());
