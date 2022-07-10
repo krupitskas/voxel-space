@@ -1,6 +1,9 @@
 # Build folders
 .idea
 cmake-*
+.vscode
+zig-cache
+zig-out
 
 # Python
 venv

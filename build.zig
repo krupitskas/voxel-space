@@ -1,0 +1,81 @@
+const std = @import("std");
+const builtin = @import("builtin");
+
+const build_root = "../build/";
+
+const is_windows = builtin.target.os.tag == .windows;
+const is_macos = builtin.target.os.tag == .macos;
+
+pub fn build(b: *std.build.Builder) anyerror!void {
+    const mode = b.standardReleaseOptions();
+
+    // Previously was exe.enableSystemLinkerHack(): See https://github.com/jeffkdev/sokol-zig-examples/issues/2
+    if (is_macos) try b.env_map.put("ZIG_SYSTEM_LINKER_HACK", "1");
+
+    var exe = b.addExecutable("voxelspacerenderer", "src/main.zig");
+    exe.addIncludeDir("src/");
+    exe.addIncludeDir("deps/");
+    exe.setBuildMode(mode);
+
+    const c_flags = if (is_macos) [_][]const u8{ "-std=c99", "-ObjC", "-fobjc-arc" } else [_][]const u8{"-std=c99"};
+    exe.addCSourceFile("src/compile_sokol.c", &c_flags);
+
+    const cpp_args = [_][]const u8{ "-Wno-deprecated-declarations", "-Wno-return-type-c-linkage", "-fno-exceptions", "-fno-threadsafe-statics" };
+    exe.addCSourceFile("deps/cimgui/imgui/imgui.cpp", &cpp_args);
+    exe.addCSourceFile("deps/cimgui/imgui/imgui_tables.cpp", &cpp_args);
+    exe.addCSourceFile("deps/cimgui/imgui/imgui_demo.cpp", &cpp_args);
+    exe.addCSourceFile("deps/cimgui/imgui/imgui_draw.cpp", &cpp_args);
+    exe.addCSourceFile("deps/cimgui/imgui/imgui_widgets.cpp", &cpp_args);
+    exe.addCSourceFile("deps/cimgui/cimgui.cpp", &cpp_args);
+
+    // Shaders
+    exe.addCSourceFile("src/shaders/cube_compile.c", &[_][]const u8{"-std=c99"});
+    exe.addCSourceFile("src/shaders/triangle_compile.c", &[_][]const u8{"-std=c99"});
+    exe.addCSourceFile("src/shaders/instancing_compile.c", &[_][]const u8{"-std=c99"});
+    exe.linkLibC();
+
+    if (is_windows) {
+        //See https://github.com/ziglang/zig/issues/8531 only matters in release mode
+        exe.want_lto = false;
+        exe.linkSystemLibrary("user32");
+        exe.linkSystemLibrary("gdi32");
+        exe.linkSystemLibrary("ole32"); // For Sokol audio
+    } else if (is_macos) {
+        const frameworks_dir = try macos_frameworks_dir(b);
+        exe.addFrameworkDir(frameworks_dir);
+        exe.linkFramework("Foundation");
+        exe.linkFramework("Cocoa");
+        exe.linkFramework("Quartz");
+        exe.linkFramework("QuartzCore");
+        exe.linkFramework("Metal");
+        exe.linkFramework("MetalKit");
+        exe.linkFramework("OpenGL");
+        exe.linkFramework("Audiotoolbox");
+        exe.linkFramework("CoreAudio");
+        exe.linkSystemLibrary("c++");
+    } else {
+        // Not tested
+        exe.linkSystemLibrary("GL");
+        exe.linkSystemLibrary("GLEW");
+        @panic("OS not supported. Try removing panic in build.zig if you want to test this");
+    }
+
+    const run_cmd = exe.run();
+
+    const run_step = b.step("run", "Run the app");
+    run_step.dependOn(&run_cmd.step);
+
+    b.default_step.dependOn(&exe.step);
+    b.installArtifact(exe);
+}
+
+// helper function to get SDK path on Mac sourced from: https://github.com/floooh/sokol-zig
+fn macos_frameworks_dir(b: *std.build.Builder) ![]u8 {
+    var str = try b.exec(&[_][]const u8{ "xcrun", "--show-sdk-path" });
+    const strip_newline = std.mem.lastIndexOf(u8, str, "\n");
+    if (strip_newline) |index| {
+        str = str[0..index];
+    }
+    const frameworks_dir = try std.mem.concat(b.allocator, u8, &[_][]const u8{ str, "/System/Library/Frameworks" });
+    return frameworks_dir;
+}
