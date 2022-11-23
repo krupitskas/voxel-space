@@ -1,9 +1,9 @@
 #include <iostream>
 #include <optional>
 #include <filesystem>
-
-#include <imgui.h>
-#include <imgui-SFML.h>
+#include <cmath>
+// #include <imgui.h>
+// #include <imgui-SFML.h>
 #include <SFML/Graphics.hpp>
 
 #define DR_PCX_IMPLEMENTATION
@@ -84,11 +84,12 @@ std::optional<sf::Texture> load_pcx_image(const std::filesystem::path& path)
     }
 
     sf::Image pcx_image;
-    pcx_image.create(width, height, pcx_image_data);
+    pcx_image.create(sf::Vector2u(width, height), pcx_image_data);
     drpcx_free(pcx_image_data);
 
     sf::Texture pcx_texture;
-    pcx_texture.loadFromImage(pcx_image);
+    if(!pcx_texture.loadFromImage(pcx_image))
+        return std::nullopt;
 
     return pcx_texture;
 }
@@ -101,7 +102,7 @@ void render(sf::Image& result_image, const sf::Image& color_img, const sf::Image
     // Clear screen
     for(int x = 0; x < result_image.getSize().x; x++)
         for(int y = 0; y < result_image.getSize().y; y++)
-            result_image.setPixel(x, y, {53, 81, 92});
+            result_image.setPixel(sf::Vector2u{static_cast<std::uint32_t>(x), static_cast<std::uint32_t>(y)}, {53, 81, 92});
 
     // Going from back to front
     for(int z = distance; z > 1; z--)
@@ -120,7 +121,7 @@ void render(sf::Image& result_image, const sf::Image& color_img, const sf::Image
             if(p_left.x < 0 || p_left.x > height_img.getSize().x || p_left.y < 0 || p_left.y > height_img.getSize().y)
                 continue;
 
-            auto heightmap_pixel = height_img.getPixel(p_left.x, p_left.y);
+            auto heightmap_pixel = height_img.getPixel(sf::Vector2u{static_cast<std::uint32_t>(p_left.x), static_cast<std::uint32_t>(p_left.y)});
 
             auto heightmap_val = (heightmap_pixel.r + heightmap_pixel.g + heightmap_pixel.b) / 3.0f;
 
@@ -132,10 +133,10 @@ void render(sf::Image& result_image, const sf::Image& color_img, const sf::Image
             if(height_on_screen < 0)
                 height_on_screen = 0;
 
-            auto color = color_img.getPixel(p_left.x , p_left.y);
+            auto color = color_img.getPixel(sf::Vector2u{static_cast<std::uint32_t>(p_left.x) , static_cast<std::uint32_t>(p_left.y)});
 
             for(int j = height_on_screen; j < win_height; j++)
-                result_image.setPixel(i, j, color);
+                result_image.setPixel(sf::Vector2u{i, static_cast<std::uint32_t>(j)}, color);
 
             p_left.x += dx;
             p_left.y += dy;
@@ -147,9 +148,9 @@ int main()
 {
     constexpr uint16_t width = 800, height = 600;
     std::string title = "Open Delta";
-    sf::RenderWindow window(sf::VideoMode(width, height), title.c_str());
+    sf::RenderWindow window(sf::VideoMode(sf::Vector2u{width, height}), title.c_str());
 //    window.setFramerateLimit(60);
-    ImGui::SFML::Init(window);
+    // ImGui::SFML::Init(window);
 
     const auto height_tex = load_pcx_image("data/dfd1/DFD1_D.PCX");
 
@@ -169,10 +170,11 @@ int main()
     camera.pos = {512, 512, 50};
 
     sf::Image result_image;
-    result_image.create(width, height, sf::Color{255, 0, 0});
+    result_image.create(sf::Vector2u{width, height}, sf::Color{255, 0, 0});
 
     sf::Texture result_texture;
-    result_texture.loadFromImage(result_image);
+    if(!result_texture.loadFromImage(result_image))
+        return -1;
 
     sf::Sprite result_sprite;
     result_sprite.setTexture(result_texture);
@@ -183,7 +185,7 @@ int main()
         sf::Event event {};
         while (window.pollEvent(event))
         {
-            ImGui::SFML::ProcessEvent(event);
+            // ImGui::SFML::ProcessEvent(event);
 
             if (event.type == sf::Event::Closed)
                 window.close();
@@ -213,11 +215,11 @@ int main()
                 camera.rotate(0.0, -5.0);
         }
 
-        ImGui::SFML::Update(window, deltaClock.restart());
+        // ImGui::SFML::Update(window, deltaClock.restart());
 
-        ImGui::Begin("Hello, world!");
-        ImGui::Button("Look at this pretty button");
-        ImGui::End();
+        // ImGui::Begin("Hello, world!");
+        // ImGui::Button("Look at this pretty button");
+        // ImGui::End();
 
         render(result_image, color_img, height_img, camera, 512, 240, width, height);
 
@@ -225,9 +227,9 @@ int main()
 
         window.clear();
         window.draw(result_sprite);
-        ImGui::SFML::Render(window);
+        // ImGui::SFML::Render(window);
         window.display();
     }
 
-    ImGui::SFML::Shutdown();
+    // ImGui::SFML::Shutdown();
 }

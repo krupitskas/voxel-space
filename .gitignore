@@ -1,7 +1,8 @@
 # Build folders
 .idea
 cmake-*
-
+build/
+_deps/
 # Python
 venv
 
