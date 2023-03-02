@@ -1,4 +1,4 @@
-# Delta Force 2 (Open Source Engine)
+# Delta Force map software visualisation
 
 ## terrain renderer
 ![](data/progress.jpg?raw=true "")
